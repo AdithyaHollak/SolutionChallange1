@@ -10,10 +10,8 @@ typedef struct data_packet_t {
     uint16_t crc;
 } data_packet_t;
 
-// CRC16-CCITT polynomial
 #define CRC_POLYNOMIAL 0x1021
 
-// Function to calculate CRC checksum
 uint16_t calculateCRC(uint8_t* data, uint8_t length) {
     uint16_t crc = 0xFFFF;
 
@@ -31,14 +29,12 @@ uint16_t calculateCRC(uint8_t* data, uint8_t length) {
     return crc;
 }
 
-// Function to check if a data packet is corrupted
 bool isPacketCorrupted(data_packet_t* packet) {
     uint16_t calculatedCRC = calculateCRC(packet->data, packet->data_length);
     return (calculatedCRC != packet->crc);
 }
 
 int main() {
-    // Example usage
     data_packet_t packet;
     packet.id = 1;
     packet.data_length = 15;
@@ -57,7 +53,6 @@ int main() {
     packet.data[12] = 'A';
     packet.crc = calculateCRC(packet.data, packet.data_length);
 
-    // Check if the packet is corrupted
     bool isCorrupted = isPacketCorrupted(&packet);
     if (isCorrupted) {
         printf("Packet is corrupted.\n");
